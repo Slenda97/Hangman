@@ -8,15 +8,23 @@ def main():
     list_word = split_word(word)
     word_length = len(list_word)
     guess_word = []
+    prev_guesses = []
     for i in range(word_length):
         guess_word.append("_")
     for i in range(max_guesses):
+        
         print(" ".join(guess_word))
+        prev_guesses.sort()
+        print(f"Currently guessed letters: {prev_guesses}")
         guess = guess_letter()
         if len(guess) > 1:
             print("You must enter a single letter.")
-            break
+            continue
+        if guess in prev_guesses:
+            print("You have already guessed that letter.")
+            continue
         else:
+            prev_guesses.append(guess)
             if guess in list_word:
                 for i in range(word_length):
                     if list_word[i] == guess:
@@ -29,8 +37,9 @@ def main():
                     print(f"You lose! The correct word was {word}.")
                     break
         if guess_word == list_word:
-            print("You win!")
+            print(f"You win! The correct word was {word}.")
             break
+        print("-------------------------------------------------------------")
     
 def guess_letter():
     guess = input("Enter a letter: ")
